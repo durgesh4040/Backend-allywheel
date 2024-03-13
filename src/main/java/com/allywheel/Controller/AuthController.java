@@ -40,9 +40,9 @@ public class AuthController {
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/signup")
     public AuthResponse signUp(@Valid @RequestBody SignUpRequest signUpRequest) {
-        if (userService.hasUserWithUsername(signUpRequest.getUsername())) {
-            throw new DuplicatedUserInfoException(String.format("Username %s already been used", signUpRequest.getUsername()));
-        }
+//        if (userService.hasUserWithUsername(signUpRequest.getUsername())) {
+//            throw new DuplicatedUserInfoException(String.format("Username %s already been used", signUpRequest.getUsername()));
+//        }
         if (userService.hasUserWithEmail(signUpRequest.getEmail())) {
             throw new DuplicatedUserInfoException(String.format("Email %s already been used", signUpRequest.getEmail()));
         }
@@ -54,8 +54,8 @@ public class AuthController {
         return  new AuthResponse(token);
     }
 
-    private String authenticateAndGetToken(String username, String password) {
-        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
+    private String authenticateAndGetToken(String email, String password) {
+        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(email, password));
         return tokenProvider.generate(authentication);
     }
 
